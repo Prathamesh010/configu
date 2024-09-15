@@ -1,3 +1,4 @@
 import './exporters';
 import './expressions';
-import './stores';
+
+export * from './stores';

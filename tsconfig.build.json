@@ -21,6 +21,9 @@
     },
     {
       "path": "packages/integrations"
+    },
+    {
+      "path": "integrations/aws-parameter-store"
     }
     // { "path": "packages/vscode" },
   ]

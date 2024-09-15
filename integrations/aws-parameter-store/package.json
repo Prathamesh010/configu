@@ -1,0 +1,39 @@
+{
+  "name": "@configu-temp/aws-parameter-store",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "description": "Configu Node.js SDK",
+  "author": "@configu/dev",
+  "engines": {
+    "node": ">=v16"
+  },
+  "exports": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "/build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/configu/configu",
+    "directory": "integrations/aws-parameter-store"
+  },
+  "bugs": {
+    "url": "https://github.com/configu/configu/issues",
+    "email": "dev@configu.com"
+  },
+  "homepage": "https://configu.com",
+  "keywords": [
+    "cfgu",
+    "configu"
+  ],
+  "scripts": {
+    "clean": "shx rm -rf tsconfig.tsbuildinfo build",
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.465.0",
+    "@configu/integrations": "workspace:*",
+    "typescript": "^5.4.5",
+    "tsup": "8.2.4"
+  }
+}
