@@ -27,7 +27,9 @@
     "change-case": "4.1.2",
     "lodash": "^4.17.21",
     "js-yaml": "^4.1.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "axios": "^1.6.2",
+    "@configu/ts": "workspace:*"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

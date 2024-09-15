@@ -205,6 +205,12 @@ importers:
 
   packages/integrations:
     dependencies:
+      '@configu/ts':
+        specifier: workspace:*
+        version: link:../ts
+      axios:
+        specifier: ^1.6.2
+        version: 1.7.2
       change-case:
         specifier: 4.1.2
         version: 4.1.2

@@ -1,7 +1,8 @@
-const allExpressions = new Map<string, typeof Function>();
+type ExpressionFunction = (...args: any[]) => unknown;
+const allExpressions = new Map<string, ExpressionFunction>();
 
 export class ConfiguExpressions {
-  static register(name: string, fn: typeof Function) {
+  static register(name: string, fn: ExpressionFunction) {
     allExpressions.set(name, fn);
   }
 
@@ -10,7 +11,7 @@ export class ConfiguExpressions {
   }
 
   static getAll() {
-    const result: Record<string, typeof Function> = {};
+    const result: Record<string, ExpressionFunction> = {};
     allExpressions.forEach((fn, name) => {
       result[name] = fn;
     });
