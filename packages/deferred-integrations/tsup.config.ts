@@ -1,12 +1,11 @@
 import { defineConfig } from 'tsup';
 import { readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 
 export default defineConfig(async () => {
   const files = await readdir('src');
   const pkg = JSON.parse(await readFile('package.json', 'utf-8'));
 
-  const entry = files.filter((file) => file.endsWith('.ts')).map((file) => join('src', file));
+  const entry = files.filter((file) => file.endsWith('.ts')).map((file) => `src/${file}`);
 
   console.log('entries', entry);
 
