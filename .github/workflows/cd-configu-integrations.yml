@@ -30,9 +30,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build the project
-        run: pnpm build
-
       - name: Build the integrations
         run: pnpm build:integrations
 
