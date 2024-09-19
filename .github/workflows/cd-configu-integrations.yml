@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 446-ability-to-register-integrations-into-configu
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build the project
+        run: pnpm build
+
+      - name: Build the integrations
+        run: pnpm build:integrations
+
+      - name: Upload artifact (dist folder)
+        uses: actions/upload-artifact@v3
+        with:
+          name: integrations-${{ matrix.os }}
+          path: deferred-integrations/

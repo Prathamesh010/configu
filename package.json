@@ -26,6 +26,7 @@
     "lint:check": "pnpm lint --quiet",
     "lint:fix": "pnpm lint --fix",
     "build": "tsc --build --verbose tsconfig.build.json",
+    "build:integrations": "pnpm run --filter @configu/deferred-integrations build",
     "test": "tsx --test \"packages\"",
     "test:cov": "tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"packages\"",
     "test:watch": "tsx --test --watch \"packages\"",
