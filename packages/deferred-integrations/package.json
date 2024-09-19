@@ -32,6 +32,13 @@
     "@configu/ts": "workspace:*",
     "typescript": "^5.4.5",
     "tsup": "8.2.4",
-    "csv": "^6.3.8"
+    "csv": "^6.3.8",
+    "typeorm": "^0.3.17",
+    "reflect-metadata": "^0.1.13",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.12",
+    "@types/lodash-es": "^4.17.12"
   }
 }
