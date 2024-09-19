@@ -2,6 +2,9 @@
   "files": [],
   "references": [
     {
+      "path": "packages/integrations"
+    },
+    {
       "path": "packages/ts"
     },
     {
@@ -18,12 +21,6 @@
     },
     {
       "path": "packages/proxy"
-    },
-    {
-      "path": "packages/integrations"
-    },
-    {
-      "path": "packages/deferred-integrations"
     }
     // { "path": "packages/vscode" },
   ]

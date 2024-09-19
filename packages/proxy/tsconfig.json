@@ -14,6 +14,9 @@
     },
     {
       "path": "../node"
+    },
+    {
+      "path": "../integrations"
     }
   ],
   "include": ["src", "src/**/*.json"]
