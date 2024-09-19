@@ -34,7 +34,7 @@ jobs:
         run: pnpm build:integrations
 
       - name: Upload artifact (dist folder)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: integrations-${{ matrix.os }}
-          path: deferred-integrations/
+          path: deferred-integrations/dist
