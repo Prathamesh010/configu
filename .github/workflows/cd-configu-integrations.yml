@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  PACKAGE_NAME: '@configu/deferred-integrations'
+  PACKAGE_NAME: 'configu-deferred-integrations'
   PACKAGE_PATH: 'packages/deferred-integrations'
 
 jobs:
