@@ -8,7 +8,7 @@ on:
 
 env:
   PACKAGE_NAME: '@configu/deferred-integrations'
-  PACKAGE_PATH: 'configu/deferred-integrations'
+  PACKAGE_PATH: 'packages/deferred-integrations'
 
 jobs:
   #  start-release:
