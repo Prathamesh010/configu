@@ -1,7 +1,10 @@
-import { defineConfig } from 'tsup';
+import { defineConfig, Options } from 'tsup';
 import { readdir, readFile } from 'node:fs/promises';
+import { platform } from 'node:os';
 
-export default defineConfig(async () => {
+const osName = process.env.OS_NAME || platform();
+
+export default defineConfig(async (): Promise<Options> => {
   const files = await readdir('src');
   const pkg = JSON.parse(await readFile('package.json', 'utf-8'));
 
@@ -15,5 +18,6 @@ export default defineConfig(async () => {
     entry,
     target: 'esnext',
     noExternal,
+    outDir: `dist/latest/${osName}`,
   };
 });
