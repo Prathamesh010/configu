@@ -52,7 +52,7 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: ${{ env.PACKAGE_NAME }}
+          name: ${{ env.PACKAGE_NAME }}-${{ matrix.os }}
           path: ${{ env.PACKAGE_PATH }}/dist/latest
   end-release:
     runs-on: ubuntu-latest
@@ -62,7 +62,15 @@ jobs:
         uses: actions/checkout@v3
       - uses: actions/download-artifact@master
         with:
-          name: ${{ env.PACKAGE_NAME }}
+          name: ${{ env.PACKAGE_NAME }}-ubuntu-latest
+          path: ${{ env.PACKAGE_PATH }}/dist/latest
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{ env.PACKAGE_NAME }}-macos-latest
+          path: ${{ env.PACKAGE_PATH }}/dist/latest
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{ env.PACKAGE_NAME }}-windows-latest
           path: ${{ env.PACKAGE_PATH }}/dist/latest
 
       - name: Upload artifacts to release
