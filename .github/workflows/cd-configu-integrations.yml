@@ -10,8 +10,6 @@ env:
   PACKAGE_NAME: '@configu/deferred-integrations'
   PACKAGE_PATH: 'configu/deferred-integrations'
 
-concurrency:
-
 jobs:
   #  start-release:
   #    runs-on: ubuntu-latest
