@@ -24,7 +24,8 @@
   ],
   "scripts": {
     "clean": "shx rm -rf tsconfig.tsbuildinfo build",
-    "build": "tsup"
+    "build": "tsup",
+    "postbuild": "node convert-filenames.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.465.0",

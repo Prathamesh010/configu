@@ -20,7 +20,7 @@ export default defineConfig(async (): Promise<Options> => {
     noExternal,
     outDir: `dist/latest`,
     outExtension: () => ({
-      js: `-${osName}.js`,
+      js: `.os-${osName}.js`,
     }),
   };
 });
