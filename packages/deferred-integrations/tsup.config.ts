@@ -18,6 +18,9 @@ export default defineConfig(async (): Promise<Options> => {
     entry,
     target: 'esnext',
     noExternal,
-    outDir: `dist/latest/${osName}`,
+    outDir: `dist/latest`,
+    outExtension: () => ({
+      js: `.${osName}.js`,
+    }),
   };
 });
