@@ -36,16 +36,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install PNPM
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/ts-env-action
 
       - name: Build the integrations
         run: pnpm build:integrations
@@ -76,11 +67,11 @@ jobs:
       - name: Upload artifacts to release
         uses: softprops/action-gh-release@v2
         with:
-          draft: true
+          make_latest: true
+          prerelease: true
           name: integrations
           tag_name: latest
           files: |
-            ${{ env.PACKAGE_PATH }}/dist/latest/*
             ${{ env.PACKAGE_PATH }}/dist/latest/**/*
 
 #      - uses: ./.github/actions/deploy-end-action
