@@ -70,7 +70,7 @@ export default class Eval extends BaseCommand<typeof Eval> {
     const pipe = await this.readPreviousEvalCommandReturn();
 
     if (typeof this.flags.store === 'string' && (typeof this.flags.set === 'string' || this.flags.set === undefined)) {
-      const store = this.getStoreInstanceByStoreFlag(this.flags.store);
+      const store = await this.getStoreInstanceByStoreFlag(this.flags.store);
       return {
         store,
         set: new ConfigSet(this.flags.set),

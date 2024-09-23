@@ -1,0 +1,45 @@
+{
+  "name": "@configu/deferred-integrations",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "description": "Configu Node.js SDK",
+  "author": "@configu/dev",
+  "engines": {
+    "node": ">=v16"
+  },
+  "files": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/configu/configu",
+    "directory": "packages/deferref-integrations"
+  },
+  "bugs": {
+    "url": "https://github.com/configu/configu/issues",
+    "email": "dev@configu.com"
+  },
+  "homepage": "https://configu.com",
+  "keywords": [
+    "cfgu",
+    "configu"
+  ],
+  "scripts": {
+    "clean": "shx rm -rf tsconfig.tsbuildinfo build",
+    "build": "tsup",
+    "postbuild": "node convert-filenames.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.465.0",
+    "@configu/integrations": "workspace:*",
+    "@configu/ts": "workspace:*",
+    "typescript": "^5.4.5",
+    "tsup": "8.2.4",
+    "csv": "^6.3.8",
+    "typeorm": "^0.3.17",
+    "reflect-metadata": "^0.1.13",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.12",
+    "@types/lodash-es": "^4.17.12"
+  }
+}

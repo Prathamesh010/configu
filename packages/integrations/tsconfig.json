@@ -8,15 +8,6 @@
   "references": [
     {
       "path": "../ts"
-    },
-    {
-      "path": "../lib"
-    },
-    {
-      "path": "../node"
-    },
-    {
-      "path": "../integrations"
     }
   ],
   "include": ["src", "src/**/*.json"]

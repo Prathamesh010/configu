@@ -1,0 +1,42 @@
+{
+  "name": "@configu/integrations",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "description": "Configu Integrations",
+  "author": "@configu/dev",
+  "exports": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "/build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/configu/configu",
+    "directory": "packages/integrations"
+  },
+  "bugs": {
+    "url": "https://github.com/configu/configu/issues",
+    "email": "dev@configu.com"
+  },
+  "homepage": "https://configu.com",
+  "keywords": [
+    "cfgu",
+    "configu"
+  ],
+  "dependencies": {
+    "change-case": "4.1.2",
+    "lodash": "^4.17.21",
+    "js-yaml": "^4.1.0",
+    "validator": "^13.11.0",
+    "axios": "^1.6.2",
+    "@configu/ts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/validator": "^13.11.9"
+  },
+  "scripts": {
+    "clean": "shx rm -rf tsconfig.tsbuildinfo build",
+    "build": "tsc --build"
+  }
+}
