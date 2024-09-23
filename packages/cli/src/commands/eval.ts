@@ -69,7 +69,7 @@ export default class Eval extends BaseCommand<typeof Eval> {
     const pipe = await this.readPreviousEvalCommandReturn();
 
     if (typeof this.flags.store === 'string' && (typeof this.flags.set === 'string' || this.flags.set === undefined)) {
-      const store = this.getStoreInstanceByStoreFlag(this.flags.store);
+      const store = await this.getStoreInstanceByStoreFlag(this.flags.store);
       return {
         store,
         set: new ConfigSet(this.flags.set),
@@ -102,7 +102,7 @@ export default class Eval extends BaseCommand<typeof Eval> {
   }
 
   public async run(): Promise<void> {
-    const cacheStore = this.getCacheStoreInstanceByStoreFlag(this.flags.store);
+    const cacheStore = await this.getCacheStoreInstanceByStoreFlag(this.flags.store);
     const evalCommandParameters = await this.constructEvalCommandParameters();
     let evalCommandReturn;
 

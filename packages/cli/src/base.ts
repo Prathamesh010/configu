@@ -77,7 +77,7 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     ux.action.stop(` ${mark} ${chalk.dim(text ?? defaultText)}`);
   }
 
-  getCacheStoreInstanceByStoreFlag(storeFlag?: string) {
+  async getCacheStoreInstanceByStoreFlag(storeFlag?: string) {
     if (!storeFlag) {
       return undefined;
     }
@@ -89,7 +89,7 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     return constructStore('sqlite', { database, tableName: storeFlag });
   }
 
-  getStoreInstanceByStoreFlag(storeFlag?: string) {
+  async getStoreInstanceByStoreFlag(storeFlag?: string) {
     if (!storeFlag) {
       throw new Error('--store flag is missing');
     }

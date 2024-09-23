@@ -9,6 +9,7 @@ on:
 env:
   PACKAGE_NAME: 'configu-deferred-integrations'
   PACKAGE_PATH: 'packages/deferred-integrations'
+  VERSION: 'latest'
 
 jobs:
   #  start-release:
@@ -70,7 +71,7 @@ jobs:
           make_latest: true
           prerelease: true
           name: integrations
-          tag_name: latest
+          tag_name: ${{ env.VERSION }}
           files: |
             ${{ env.PACKAGE_PATH }}/dist/latest/**/*
 

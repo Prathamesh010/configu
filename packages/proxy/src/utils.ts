@@ -6,8 +6,8 @@ import _ from 'lodash';
 import { ConfiguStores } from '@configu/integrations';
 import { config } from './config';
 
-const constructStore = (type: string, configuration: any): ConfigStore => {
-  const StoreCtor = ConfiguStores.getOne(type);
+const constructStore = async (type: string, configuration: any): Promise<ConfigStore> => {
+  const StoreCtor = await ConfiguStores.getOne(type);
   if (!StoreCtor) {
     throw new Error(`unknown store type ${type}`);
   }
@@ -37,7 +37,7 @@ export class ConfiguInterfaceConfiguration {
     this.configPath = result.filepath;
   }
 
-  static getStoreInstance(storeName?: string): ConfigStore {
+  static async getStoreInstance(storeName?: string): Promise<ConfigStore> {
     if (!storeName) {
       throw new Error('Store is required');
     }

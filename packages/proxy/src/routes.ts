@@ -82,7 +82,7 @@ export const routes: FastifyPluginAsync = async (server, opts): Promise<void> =>
         async (previousResult, { store, set, schema: { name, contents }, configs }) => {
           const pipe = await previousResult;
 
-          const storeInstance = ConfiguInterfaceConfiguration.getStoreInstance(store);
+          const storeInstance = await ConfiguInterfaceConfiguration.getStoreInstance(store);
           const setInstance = new ConfigSet(set);
           const schemaInstance = new ConfigSchema(name, contents as unknown as ConfigSchemaContents);
 
