@@ -1,89 +1,54 @@
-import {
-  AWSParameterStoreConfigStore,
-  AWSSecretsManagerConfigStore,
-  AzureKeyVaultConfigStore,
-  CockroachDBConfigStore,
-  ConfiguConfigStore,
-  GCPSecretManagerConfigStore,
-  HashiCorpVaultConfigStore,
-  IniFileConfigStore,
-  InMemoryConfigStore,
-  JsonFileConfigStore,
-  KubernetesSecretConfigStore,
-  MariaDBConfigStore,
-  MSSQLConfigStore,
-  MySQLConfigStore,
-  NoopConfigStore,
-  PostgreSQLConfigStore,
-  SQLiteConfigStore,
-  LaunchDarklyConfigStore,
-  CloudBeesConfigStore,
-  CsvFileConfigStore,
-  TomlFileConfigStore,
-  XmlFileConfigStore,
-  EtcdConfigStore,
-} from '@configu/node';
+import { existsSync } from 'node:fs';
+import { writeFile, mkdir } from 'node:fs/promises';
+import { platform } from 'node:os';
+import * as path from 'node:path';
+import { ConfiguStores as BaseConfiguStores } from '@configu/integrations';
 import { ConfigStore } from '@configu/ts';
-import { type LiteralUnion } from 'type-fest';
 
-export type StoreType = LiteralUnion<
-  | 'noop'
-  | 'in-memory'
-  | 'configu'
-  | 'json-file'
-  | 'csv-file'
-  | 'ini-file'
-  | 'toml-file'
-  | 'xml-file'
-  | 'hashicorp-vault'
-  | 'aws-parameter-store'
-  | 'aws-secrets-manager'
-  | 'azure-key-vault'
-  | 'gcp-secret-manager'
-  | 'kubernetes-secret'
-  | 'sqlite'
-  | 'mysql'
-  | 'mariadb'
-  | 'postgres'
-  | 'cockroachdb'
-  | 'mssql'
-  | 'launch-darkly'
-  | 'cloud-bees'
-  | 'etcd',
-  string
->;
+// TODO: need to have allStores in the class, can't access it otherwise
 
-type ConfigStoreCtor = new (configuration: any) => ConfigStore;
-const TYPE_TO_STORE_CTOR: Record<StoreType, ConfigStoreCtor> = {
-  noop: NoopConfigStore,
-  'in-memory': InMemoryConfigStore,
-  configu: ConfiguConfigStore,
-  'json-file': JsonFileConfigStore,
-  'ini-file': IniFileConfigStore,
-  'csv-file': CsvFileConfigStore,
-  'toml-file': TomlFileConfigStore,
-  'xml-file': XmlFileConfigStore,
-  'hashicorp-vault': HashiCorpVaultConfigStore,
-  'aws-parameter-store': AWSParameterStoreConfigStore,
-  'aws-secrets-manager': AWSSecretsManagerConfigStore,
-  'azure-key-vault': AzureKeyVaultConfigStore,
-  'gcp-secret-manager': GCPSecretManagerConfigStore,
-  'kubernetes-secret': KubernetesSecretConfigStore,
-  sqlite: SQLiteConfigStore,
-  mysql: MySQLConfigStore,
-  mariadb: MariaDBConfigStore,
-  postgres: PostgreSQLConfigStore,
-  cockroachdb: CockroachDBConfigStore,
-  mssql: MSSQLConfigStore,
-  'launch-darkly': LaunchDarklyConfigStore,
-  'cloud-bees': CloudBeesConfigStore,
-  etcd: EtcdConfigStore,
-};
-
-export const constructStore = (type: string, configuration: any): ConfigStore => {
-  const StoreCtor = TYPE_TO_STORE_CTOR[type];
-  if (!StoreCtor) {
-    throw new Error(`unknown store type ${type}`);
+export class ConfiguStores extends BaseConfiguStores {
+  // TODO: needs to be string, ConfigStore
+  private static allStores = new Map<string, any>();
+  static register(name: string, store: any) {
+    this.allStores.set(name, store);
   }
-  return new StoreCtor(configuration);
-};
+
+  // TODO: properly override getOne or make it abstract
+  static async getOne2({
+    key,
+    cacheDir,
+    configuration,
+    version,
+  }: {
+    key: string;
+    cacheDir: string;
+    configuration?: Record<string, unknown>;
+    version?: string;
+  }): Promise<ConfigStore> {
+    const store = this.allStores.get(key);
+    if (store) {
+      return store;
+    }
+    const storeVersion = version ?? 'latest';
+
+    const STORE_PATH = path.join(cacheDir, `/${key}-${storeVersion}.js`);
+
+    if (!existsSync(STORE_PATH)) {
+      const res = await fetch(
+        `https://github.com/configu/configu/releases/download/${storeVersion}/${key}-${platform()}.js`,
+      );
+      if (res.ok) {
+        await mkdir(cacheDir, { recursive: true });
+        await writeFile(STORE_PATH, await res.text());
+      } else {
+        throw new Error(`Store "${key}" not found`);
+      }
+    }
+
+    // eslint-disable-next-line global-require,import/no-dynamic-require
+    require(STORE_PATH);
+    const StoreCtor = this.allStores.get(key);
+    return new StoreCtor(configuration);
+  }
+}

@@ -2,9 +2,8 @@ import _ from 'lodash';
 import { cosmiconfig, CosmiconfigResult } from 'cosmiconfig';
 import { JsonSchemaType, TMPL, JSON_SCHEMA, ConfigStore } from '@configu/ts';
 import nodePath from 'path';
-import { SQLiteConfigStore } from '@configu/node';
 import { spawnSync } from 'child_process';
-import { constructStore } from './ConfigStoreConstructor';
+import { ConfiguStores } from './ConfigStoreConstructor';
 
 type StoreConfigurationObject = { type: string; configuration?: Record<string, unknown>; backup?: boolean };
 export type ConfiguFileContents = Partial<{
@@ -106,24 +105,50 @@ export class ConfiguFile {
     return this.parseLoadResult(result);
   }
 
-  getStoreInstance(storeName: string): ConfigStore {
+  async getStoreInstance({
+    storeName,
+    cacheDir,
+    configuration,
+    version,
+  }: {
+    storeName: string;
+    cacheDir: string;
+    configuration?: Record<string, unknown>;
+    version?: string;
+  }): Promise<ConfigStore> {
     const storeConfig = this.contents.stores?.[storeName];
     if (!storeConfig) {
       throw new Error(`Store "${storeName}" not found`);
     }
-    return constructStore(storeConfig.type, storeConfig.configuration);
+    return ConfiguStores.getOne2({
+      key: storeName,
+      version,
+      cacheDir,
+      configuration: configuration ?? storeConfig.configuration,
+    });
   }
 
-  getBackupStoreInstance(storeName: string) {
-    const shouldBackup = this.contents.stores?.[storeName]?.backup;
-    if (!shouldBackup) {
-      return undefined;
-    }
+  async getBackupStoreInstance({
+    storeName,
+    cacheDir,
+    configuration,
+    version,
+  }: {
+    storeName: string;
+    cacheDir: string;
+    configuration?: Record<string, unknown>;
+    version?: string;
+  }): Promise<ConfigStore> {
     const database = this.contents.backup ?? nodePath.join(nodePath.dirname(this.path), 'config.backup.sqlite');
-    return new SQLiteConfigStore({
-      database,
-      tableName: storeName,
+
+    const sqliteStore = await ConfiguStores.getOne2({
+      // TODO: get key from a dictionary
+      key: 'sqlite',
+      configuration: configuration ?? { database, tableName: storeName },
+      version,
+      cacheDir,
     });
+    return sqliteStore;
   }
 
   runScript({ scriptName, directory }: { scriptName: string; directory?: string }) {

@@ -211,6 +211,9 @@ importers:
 
   packages/common:
     dependencies:
+      '@configu/integrations':
+        specifier: workspace:*
+        version: link:../integrations
       '@configu/node':
         specifier: workspace:*
         version: link:../node
