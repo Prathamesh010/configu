@@ -69,7 +69,7 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     ux.action.stop(` ${mark} ${chalk.dim(text ?? defaultText)}`);
   }
 
-  getStoreInstanceByStoreFlag(storeFlag?: string): ConfigStore {
+  async getStoreInstanceByStoreFlag(storeFlag?: string): Promise<ConfigStore> {
     if (!storeFlag) {
       throw new Error('--store flag is missing');
     }
